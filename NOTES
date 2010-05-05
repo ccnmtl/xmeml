@@ -1,0 +1,98 @@
+http://developer.apple.com/mac/library/documentation/AppleApplications/Reference/FinalCutPro_XML/Topics/Topics.html
+http://developer.apple.com/mac/library/documentation/AppleApplications/Reference/FinalCutPro_XML/Topics/Topics.html#//apple_ref/doc/uid/TP30001149-CH294-SW1
+http://documentation.apple.com/en/finalcutpro/usermanual/index.html#chapter=97%26section=3%26tasks=true
+
+py obj
+-------------
+files()
+clipitems()
+	->files
+	   'tracks' (audio, video)
+	in,out (source points)
+	start,end (destination point)
+          -1 value seems to indicate 'copy from in/out points of clip'
+
+        note: <marker>s also have a '-1' in <out> which just means it's a single point
+transitionitem()
+
+sequence/timecode/string seems to be the baseline timecode for t=0
+
+          
+xml layout
+-------------
+xmeml
+ sequence[id=]
+    uuid, updatebehavior, duration, rate
+    timecode
+	rate, string, frame, source, displayformat
+    in, out
+    media
+      video
+        format
+	track
+	  transitionitem
+	     rate, start, end, alignment, effect
+	  clipitem[id=]
+	     name, duration, rate, in, out, start, end,
+	     pixelaspectratio, enabled, alphatype, masterclipid
+	     logginginfo
+	     labels
+	     comments
+	        mastercomment1, mastercomment2, ...
+	     file
+	        name, pathurl, rate/*, duration
+		timecode
+		   rate,string,frame,displayformat, source, reel
+		media
+		   video
+			duration,samplecharacteristics(height,width)
+		   audio
+			samplerate, depth
+			channelcount
+		filter
+		   *****
+		sourcetrack
+		fielddominance
+		itemhistory
+		   uuid
+	   /clipitem
+	/video   
+	audio
+	   format
+	      samplecharacteristics
+	         depth, samplerate
+           outputs
+	      group
+	         index, numchannels, downmix, 
+		 channel
+		 channel
+		 ...
+	   in, out
+	   track
+	      transitionitem
+	         rate
+		    ntsc, timebase
+		 start, end, alignment
+		 effect
+		    ****
+	      clipitem[id=]
+	          name, duration, rate, in, out, start, end, 
+		  masterclipid	      
+		  logginginfo/*
+		  labels, comments
+		  file[id=]
+		  filter*
+		  sourcetrack
+		  link*
+		  itemhistory/uuid
+	      /clipitem
+	      ...
+	      enabled, locked, outputchannelindex
+	  /track
+	  filter
+	      effect
+      /audio
+   /media
+   ismasterclip
+   marker
+/sequence
